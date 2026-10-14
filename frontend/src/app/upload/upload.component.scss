@@ -1,0 +1,130 @@
+.drop-zone {
+  border: 2px dashed #c8d8ee;
+  border-radius: 12px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fafcff;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  padding: 24px;
+
+  &:hover { border-color: #2563eb; background: #f0f6ff; }
+  &.has-file { border-style: solid; border-color: #2563eb; padding: 12px; }
+  &.loading  { border-style: solid; border-color: #c8d8ee; }
+}
+
+.drop-icon-wrap svg { width: 52px; height: 52px; }
+
+.drop-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2b4a;
+  margin: 0;
+}
+
+.drop-sub {
+  font-size: 13px;
+  color: #9aabbd;
+  margin: 0;
+}
+
+.btn-select {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 9px 24px;
+  border: 1px solid #1a3a8f;
+  border-radius: 8px;
+  color: #1a3a8f;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover { background: #eef3fb; }
+}
+
+.file-input { display: none; }
+
+.preview-img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.preview-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.btn-analyze {
+  padding: 9px 28px;
+  background: #1a3a8f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover { background: #2563eb; }
+}
+
+.btn-reset {
+  padding: 9px 16px;
+  background: #f0f3f8;
+  color: #4a5a7a;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover { background: #e0e5ef; }
+}
+
+.loader-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e8f5;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2b4a;
+  margin: 0;
+}
+
+.loading-sub {
+  font-size: 12px;
+  color: #9aabbd;
+  margin: 0;
+}
+
+.error-msg {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 13px;
+}

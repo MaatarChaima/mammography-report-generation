@@ -1,0 +1,45 @@
+<div class="drop-zone"
+     [class.has-file]="previewUrl"
+     [class.loading]="loading"
+     (drop)="onDrop($event)"
+     (dragover)="onDragOver($event)">
+
+  <!-- Empty state -->
+  <ng-container *ngIf="!previewUrl && !loading">
+    <div class="drop-icon-wrap">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="#EEF3FB"/>
+        <path d="M20 26V14M20 14L15 19M20 14L25 19" stroke="#2563eb" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 28h16" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <p class="drop-label">Drag &amp; drop medical imagery</p>
+    <p class="drop-sub">Supports DICOM, JPG, PNG (Max 50MB)</p>
+    <label class="btn-select">
+      Select Local File
+      <input type="file" accept="image/*" class="file-input" (change)="onFileSelected($event)" />
+    </label>
+  </ng-container>
+
+  <!-- Preview -->
+  <ng-container *ngIf="previewUrl && !loading">
+    <img [src]="previewUrl" class="preview-img" alt="Preview" />
+    <div class="preview-actions">
+      <button class="btn-analyze" (click)="analyze()">Analyser</button>
+      <button class="btn-reset" (click)="reset()">✕ Changer</button>
+    </div>
+  </ng-container>
+
+  <!-- Loading -->
+  <ng-container *ngIf="loading">
+    <div class="loader-wrap">
+      <div class="spinner"></div>
+      <p class="loading-label">Analyse en cours…</p>
+      <p class="loading-sub">U-Net → EfficientNet → MedGemma</p>
+    </div>
+  </ng-container>
+
+</div>
+
+<div class="error-msg" *ngIf="errorMsg">⚠ {{ errorMsg }}</div>

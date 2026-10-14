@@ -1,0 +1,302 @@
+.rapport-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Status banner ─────────────────────────────────────── */
+.status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.status-alert {
+  background: rgba(255, 100, 60, 0.13);
+  border: 1px solid rgba(255, 100, 60, 0.4);
+  color: #ff7755;
+}
+
+.status-normal {
+  background: rgba(60, 200, 100, 0.10);
+  border: 1px solid rgba(60, 200, 100, 0.35);
+  color: #44cc77;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-icon { font-size: 24px; }
+
+/* BI-RADS badge */
+.birads-badge {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+.birads-normal  { background: rgba(60,200,100,0.15); color: #44cc77; border: 1px solid rgba(60,200,100,.3); }
+.birads-low     { background: rgba(255,200,60,0.15); color: #f5c542; border: 1px solid rgba(255,200,60,.3); }
+.birads-medium  { background: rgba(255,140,40,0.15); color: #ff9a3c; border: 1px solid rgba(255,140,40,.3); }
+.birads-high    { background: rgba(255,60,60,0.15);  color: #ff5555; border: 1px solid rgba(255,60,60,.3); }
+
+/* ── Generic card ──────────────────────────────────────── */
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+
+.card-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #7a9cbb;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin: 0 0 14px;
+
+  &.no-margin { margin: 0; }
+}
+
+/* ── MedGemma card ─────────────────────────────────────── */
+.medgemma-card {
+  border-color: rgba(74, 158, 255, 0.25);
+  background: rgba(10, 30, 60, 0.55);
+}
+
+.medgemma-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(74,158,255,0.15);
+}
+
+.medgemma-logo {
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.medgemma-sub {
+  display: block;
+  font-size: 11px;
+  color: #5a8aaa;
+  margin-top: 3px;
+  letter-spacing: 0.4px;
+}
+
+.medgemma-body {
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: #c8dff2;
+}
+
+.report-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: #4a9eff;
+  margin: 18px 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &:first-child { margin-top: 0; }
+}
+
+.report-para {
+  margin: 0 0 12px;
+  color: #b8d4ee;
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.medgemma-rag-hint {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(74,158,255,0.12);
+  font-size: 12px;
+  color: #5a8aaa;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.rag-pill {
+  background: rgba(74,158,255,0.12);
+  color: #4a9eff;
+  border: 1px solid rgba(74,158,255,0.25);
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ── Two columns ───────────────────────────────────────── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 680px) { grid-template-columns: 1fr; }
+}
+
+/* Features table */
+.feat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.feat-table tr {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  &:last-child { border-bottom: none; }
+  &.highlight .feat-value { color: #ffaa55; font-weight: 700; }
+}
+
+.feat-label { padding: 7px 4px; color: #5a8aaa; width: 52%; }
+.feat-value { padding: 7px 4px; color: #d0e8ff; font-weight: 600; }
+
+.no-data { color: #5a8aaa; font-size: 13px; }
+
+/* Annotated image */
+.result-img {
+  width: 100%;
+  border-radius: 8px;
+  display: block;
+}
+
+.no-img { display: flex; flex-direction: column; }
+
+/* ── Prompt toggle ─────────────────────────────────────── */
+.prompt-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #5a8aaa;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  text-align: left;
+
+  &:hover { color: #a0c4e8; }
+}
+
+.toggle-arrow { font-size: 11px; }
+
+.prompt-body { margin-top: 14px; }
+
+.prompt-meta {
+  font-size: 12px;
+  color: #5a8aaa;
+  padding: 10px 12px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 6px;
+}
+
+/* ── Density + Calcifications row ─────────────────────── */
+.global-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 680px) { grid-template-columns: 1fr; }
+}
+
+.density-badge {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 4px 14px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.acr-A { background: rgba(60,200,100,0.12); color: #44cc77; border: 1px solid rgba(60,200,100,.3); }
+.acr-B { background: rgba(255,200,60,0.12);  color: #f5c542; border: 1px solid rgba(255,200,60,.3); }
+.acr-C { background: rgba(255,140,40,0.12);  color: #ff9a3c; border: 1px solid rgba(255,140,40,.3); }
+.acr-D { background: rgba(255,60,60,0.12);   color: #ff5555; border: 1px solid rgba(255,60,60,.3); }
+
+.density-desc {
+  font-size: 13px;
+  color: #8aaccc;
+  margin: 0 0 12px;
+}
+
+.density-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.density-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #44cc77, #ff9a3c, #ff5555);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.density-pct {
+  font-size: 12px;
+  color: #5a8aaa;
+}
+
+.calc-count {
+  font-size: 22px;
+  font-weight: 800;
+  color: #d0e8ff;
+  margin: 0 0 6px;
+  &.calc-alert { color: #ff9a3c; }
+}
+
+.calc-type {
+  font-size: 13px;
+  color: #8aaccc;
+  margin: 0 0 8px;
+}
+
+.calc-cluster {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 8px;
+  background: rgba(74,158,255,0.10);
+  color: #4a9eff;
+  border: 1px solid rgba(74,158,255,0.25);
+}
+
+/* ── New analysis button ───────────────────────────────── */
+.btn-new {
+  align-self: flex-start;
+  padding: 11px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  background: rgba(74,158,255,0.10);
+  color: #4a9eff;
+  border: 1px solid rgba(74,158,255,0.35);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: rgba(74,158,255,0.20); }
+}

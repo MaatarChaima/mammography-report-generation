@@ -1,0 +1,53 @@
+<div class="rapport-wrap">
+
+  <!-- ── Status banner ──────────────────────────────────────── -->
+  <div class="status-banner" [ngClass]="statusClass">
+    <div class="status-left">
+      <span class="status-icon">{{ statusIcon }}</span>
+      <span class="status-text">{{ statusLabel }}</span>
+      <span class="prob-label">{{ probabilityLabel }}</span>
+    </div>
+    <span class="birads-badge" *ngIf="result.birads" [ngClass]="biradsBadgeClass">
+      BIRADS {{ result.birads }}
+    </span>
+  </div>
+
+  <!-- ── Images : overlay + crop ────────────────────────────── -->
+  <div class="two-col">
+
+    <div class="card image-card" *ngIf="result.image_annotee">
+      <h3 class="card-title">Segmentation U-Net (overlay)</h3>
+      <img [src]="result.image_annotee" alt="Overlay segmentation" class="result-img" />
+    </div>
+
+    <div class="card image-card" *ngIf="result.crop_b64">
+      <h3 class="card-title">Crop lésion</h3>
+      <img [src]="result.crop_b64" alt="Crop lésion" class="result-img" />
+    </div>
+
+  </div>
+
+  <!-- ── Rapport MedGemma ────────────────────────────────────── -->
+  <div class="card medgemma-card" *ngIf="result.rapport">
+    <div class="medgemma-header">
+      <span class="medgemma-logo">🤖</span>
+      <div>
+        <h3 class="card-title no-margin">MedGemma — Rapport généré</h3>
+        <span class="medgemma-sub">MedGemma-4B-IT · 4-bit NF4 · Pipeline DMID</span>
+      </div>
+    </div>
+
+    <div class="medgemma-body">
+      <ng-container *ngFor="let block of rapportBlocks()">
+        <h4 class="report-heading" *ngIf="block.type === 'heading'">{{ block.text }}</h4>
+        <p  class="report-para"   *ngIf="block.type === 'para'">{{ block.text }}</p>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- ── Nouvelle analyse ────────────────────────────────────── -->
+  <button class="btn-new" (click)="newAnalysis.emit()">
+    ← Nouvelle analyse
+  </button>
+
+</div>

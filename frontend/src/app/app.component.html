@@ -1,0 +1,210 @@
+<div class="app-shell">
+
+  <!-- ── Header ───────────────────────────────────────────── -->
+  <header class="app-header">
+    <span class="brand-title">BreastScan AI</span>
+    <div class="avatar"></div>
+  </header>
+
+  <!-- ── Main grid : upload + AI Insights ─────────────────── -->
+  <div class="main-grid">
+
+    <!-- Upload panel -->
+    <section class="upload-panel">
+      <h2 class="panel-title">Diagnostic Imaging Analysis</h2>
+      <app-upload (resultReady)="onResult($event)"></app-upload>
+    </section>
+
+    <!-- AI Insights panel -->
+    <aside class="insights-panel">
+      <h3 class="insights-title">
+        <span class="bolt">⚡</span> AI Insights
+      </h3>
+
+      <!-- Empty state -->
+      <div class="insights-empty" *ngIf="!latestResult">
+        <div class="insights-icon">
+          <svg viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="28" width="8" height="12" rx="2" fill="#c8d8e8"/>
+            <rect x="20" y="20" width="8" height="20" rx="2" fill="#a0b8d0"/>
+            <rect x="32" y="12" width="8" height="28" rx="2" fill="#c8d8e8"/>
+          </svg>
+        </div>
+        <p>Upload an image to start<br>the AI diagnostic process.</p>
+      </div>
+
+      <!-- Result summary -->
+      <div class="insights-result" *ngIf="latestResult">
+        <div class="ins-badge" [ngClass]="resultClass(latestResult)">
+          {{ resultLabel(latestResult) }}
+        </div>
+        <div class="ins-row">
+          <span class="ins-label">BIRADS</span>
+          <span class="birads-pill" [ngClass]="biradsBadgeClass(latestResult.birads)">
+            {{ latestResult.birads }}
+          </span>
+        </div>
+        <div class="ins-row">
+          <span class="ins-label">Probabilité malignité</span>
+          <span class="ins-val">{{ latestResult.probability.toFixed(1) }}%</span>
+        </div>
+        <div class="ins-findings" *ngIf="latestResult.rapport">
+          <p class="ins-findings-label">Findings</p>
+          <ng-container *ngFor="let block of rapportBlocks(latestResult.rapport)">
+            <p class="ins-findings-heading" *ngIf="block.type === 'heading' && block.text.toLowerCase().startsWith('findings')">
+              <strong>{{ block.text }}</strong>
+            </p>
+            <p class="ins-findings-text" *ngIf="block.type === 'para'">{{ block.text }}</p>
+          </ng-container>
+        </div>
+        <img *ngIf="latestResult.image_annotee"
+             [src]="latestResult.image_annotee"
+             class="ins-thumb" alt="Overlay" />
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ── Diagnosis History ─────────────────────────────────── -->
+  <section class="history-section">
+    <div class="history-header">
+      <h3 class="history-title">Diagnosis History</h3>
+      <div class="history-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search Patient ID..." class="search-input" />
+      </div>
+    </div>
+
+    <table class="history-table" *ngIf="history.length > 0">
+      <thead>
+        <tr>
+          <th>PATIENT ID</th>
+          <th>DATE</th>
+          <th>MODALITY</th>
+          <th>RESULT</th>
+          <th>REPORT</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rec of pagedHistory">
+          <td class="td-id">{{ rec.id }}</td>
+          <td>{{ formatDate(rec.date) }}</td>
+          <td>{{ rec.modality }}</td>
+          <td>
+            <span class="result-badge" [ngClass]="resultClass(rec.result)">
+              {{ resultLabel(rec.result) }}
+            </span>
+          </td>
+          <td>
+            <button class="btn-view" (click)="openModal(rec)">
+              <span class="doc-icon">📄</span> View Report
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="history-empty" *ngIf="history.length === 0">
+      No analyses yet. Upload a mammography image to begin.
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" *ngIf="totalPages > 1">
+      <span class="showing-label">
+        SHOWING {{ pagedHistory.length }} OF {{ history.length }} ANALYSES
+      </span>
+      <div class="page-controls">
+        <button class="page-btn" (click)="page = page - 1" [disabled]="page === 1">‹</button>
+        <button class="page-btn"
+                *ngFor="let p of pages"
+                [class.active]="p === page"
+                (click)="page = p">{{ p }}</button>
+        <button class="page-btn" (click)="page = page + 1" [disabled]="page === totalPages">›</button>
+      </div>
+    </div>
+    <div class="showing-label" *ngIf="history.length > 0 && totalPages <= 1">
+      SHOWING {{ history.length }} OF {{ history.length }} ANALYSES
+    </div>
+  </section>
+
+  <!-- ── Modal rapport ─────────────────────────────────────── -->
+  <div class="modal-overlay" *ngIf="modalRecord" (click)="closeModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h2 class="modal-title">Diagnostic Report — {{ modalRecord.id }}</h2>
+        <button class="modal-close" (click)="closeModal()">✕</button>
+      </div>
+
+      <!-- Patient meta -->
+      <div class="modal-meta">
+        <div class="meta-box">
+          <span class="meta-label">ANALYSIS DATE</span>
+          <span class="meta-val">{{ formatDate(modalRecord.date) }}</span>
+        </div>
+        <div class="meta-box">
+          <span class="meta-label">MODALITY</span>
+          <span class="meta-val">{{ modalRecord.modality }}</span>
+        </div>
+        <div class="meta-box">
+          <span class="meta-label">CLASSIFICATION</span>
+          <span class="meta-val result-inline"
+                [ngClass]="resultClass(modalRecord.result)">
+            {{ resultLabel(modalRecord.result) }}
+          </span>
+        </div>
+        <div class="meta-box">
+          <span class="meta-label">BIRADS</span>
+          <span class="meta-val birads-pill"
+                [ngClass]="biradsBadgeClass(modalRecord.result.birads)">
+            {{ modalRecord.result.birads }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Modal body : image + rapport -->
+      <div class="modal-body">
+
+        <!-- Image overlay -->
+        <div class="modal-img-wrap">
+          <img *ngIf="modalRecord.result.image_annotee"
+               [src]="modalRecord.result.image_annotee"
+               class="modal-img" alt="Segmentation overlay" />
+          <img *ngIf="!modalRecord.result.image_annotee && modalRecord.result.crop_b64"
+               [src]="modalRecord.result.crop_b64"
+               class="modal-img" alt="Crop" />
+          <div class="img-label-ai">AI ENHANCED</div>
+          <div class="img-label-region">REGION FOCUS: LESION</div>
+        </div>
+
+        <!-- Rapport texte -->
+        <div class="modal-report">
+          <div class="report-header">
+            <span class="report-icon">📋</span>
+            <span class="report-title">Clinical Summary</span>
+          </div>
+          <div class="report-body">
+            <ng-container *ngFor="let block of rapportBlocks(modalRecord.result.rapport)">
+              <p class="rb-heading" *ngIf="block.type === 'heading'">
+                <strong>{{ block.text }}</strong>
+              </p>
+              <p class="rb-para" *ngIf="block.type === 'para'">{{ block.text }}</p>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button class="btn-close-modal" (click)="closeModal()">Close</button>
+        <button class="btn-download" (click)="downloadPdf()">
+          ⬇ Download PDF Report
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

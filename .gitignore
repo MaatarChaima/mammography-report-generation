@@ -1,0 +1,25 @@
+# Dataset and trained weights (not versioned, see README)
+DMID/
+models/
+*.pt
+*.pth
+*.pkl
+
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Secrets
+.env
+
+# Front-end
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Editors / tools
+.vscode/
+.idea/
+.claude/
