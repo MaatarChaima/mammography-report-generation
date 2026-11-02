@@ -10,7 +10,10 @@ radiology report** with a medical vision-language model (**MedGemma**). Results 
 ![Flask](https://img.shields.io/badge/API-Flask-000000?logo=flask)
 ![Angular](https://img.shields.io/badge/Angular-16-DD0031?logo=angular)
 
-![Demo](docs/demo.gif)
+
+https://github.com/user-attachments/assets/b1a599a4-2d42-4ed0-9386-58bea3398bfd
+
+
 
 > **Research prototype — not intended for clinical use.** The generated reports are a decision-support aid and must be reviewed by a radiologist.
 
